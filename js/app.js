@@ -15,7 +15,7 @@ function mostrarProducts(){
         contenedorCard.className = 'col-6 col-sm-6 col-md-4 col-lg-3'; 
         const card = document.createElement('div');
         card.classList.add('card__product');
-        card.setAttribute('id', element.id)
+        card.setAttribute('data-id', element.id)
         
         const cardLink = document.createElement('div');
         cardLink.classList.add('card__link')
@@ -40,13 +40,14 @@ function mostrarProducts(){
         
         const cardButtonAdd = document.createElement('button');
         cardButtonAdd.className = 'btn btn-primary btn-sm card__button btnPush buttonFunc';
-        cardButtonAdd.disabled = true
+        cardButtonAdd.disabled = false;
         cardButtonAdd.textContent = 'Agregar';
 
         const cardInput = document.createElement('input');
         cardInput.className = 'input-card';
         cardInput.setAttribute('type', 'tel')
         cardInput.setAttribute('placeholder', 'cantidad')
+        cardInput.setAttribute('value', '1')
 
         const cardForm = document.createElement('form');
         cardForm.className = 'card-form';
@@ -87,7 +88,6 @@ function validar(e){
             buttonPush.disabled = true;
         }
         if(input == ''){
-            buttonDecrement.disabled = true;
             buttonPush.disabled = true;
         }
     }
@@ -98,19 +98,60 @@ function cargarData(e){
     const productSeleccionado = e.target.parentElement.parentElement;
     leerDatosProduct(productSeleccionado);
     e.target.reset();
-    desabilitarButtons(e)
 }
 
 function leerDatosProduct(product){
-    const infoCurs = {
-        img: product.querySelector('img')
+    const infoProduct = {
+        id: product.getAttribute('data-id'),
+        img: product.querySelector('img').src,
+        title: product.querySelector('h5').textContent,
+        quatity: Number(product.querySelector('.input-card').value),
+    }
+    // Revisa si un elemento ya existe en el carrito
+    const existe = carrito.some( product => product.id === infoProduct.id)
+    if(existe){
+        //si ya existe actualizamos la cantidad
+        const products = carrito.map( product => {
+            if(product.id === infoProduct.id){
+                product.quatity += infoProduct.quatity;
+                return product;
+            }else{
+                return product;
+            }
+        })
+        carrito = [...products]
+    }else{
+        // Agregando elementos al carrito, tomamos una copia de lo que haya en este carrito.
+        carrito = [...carrito, infoProduct]
     }
 
-    console.log(infoCurs)
+
+
+    cargarHTML()
+}
+function cargarHTML(){
+    const contenedorCarrito = document.querySelector('#table tbody');
+    //Vaciar HTML
+    limpiarHTML(contenedorCarrito)
+    //Recorre el carrito y genera el HTML
+    carrito.forEach(product => {
+        const {quatity, title, img, id} = product;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+        <th scope="row">${quatity}</th>
+        <td>${title}</td>
+        <td><img class="img-fluid" width="50" src="${img}" alt=""></td>
+        <td><a href="#" class="borrar-product" data-id="${id}">X</a></td>
+        `
+        contenedorCarrito.appendChild(row)
+    })
 }
 
-function desabilitarButtons(e){
-    e.target.children[1].children[0].disabled = true;
+function limpiarHTML(contenedor){
+    // contenedor.innerHTML = '';
+    while(contenedor.firstChild){
+        contenedor.removeChild(contenedor.firstChild)
+    }
 }
 
 
