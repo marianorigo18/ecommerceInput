@@ -84,3 +84,7 @@ a{
     display: flex;
     justify-content: center;
   } 
+  /*Container Carrito*/
+  .container-carrito{
+    height: 97vh;
+  }

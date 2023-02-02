@@ -71,11 +71,26 @@ function mostrarProducts(){
 
 function cargarListeners(){
     let productsList = document.querySelector('#container__cards');
+    const contenedorCarrito = document.querySelector('#table tbody');
+
     productsList.addEventListener('input', validar);
     productsList.addEventListener('submit', cargarData);
+    //Elimina un producto del curso.
+    contenedorCarrito.addEventListener('click', eliminarProduct);
 }
 
+function eliminarProduct(e){
+    e.preventDefault()
+    if(e.target.classList.contains('borrar-product')){
+        
+        const productId = e.target.getAttribute('data-id');
+        
+        carrito = carrito.filter( product => product.id !== productId );
 
+        cargarHTML();
+        console.log(carrito);
+    }
+}
 
 function validar(e){
     let input = e.target.value;
