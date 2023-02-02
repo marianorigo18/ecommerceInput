@@ -84,6 +84,16 @@ a{
     display: flex;
     justify-content: center;
   } 
+  .borrar-product{
+    background: red;
+    padding: 0 5px;
+    border-radius: 50%;
+    color: white;
+    transition: .3s;
+  }
+  .borrar-product:hover{
+    color: white;
+  }
   /*Container Carrito*/
   .container-carrito{
     height: 97vh;

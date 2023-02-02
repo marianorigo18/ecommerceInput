@@ -75,6 +75,12 @@ function cargarListeners(){
 
     productsList.addEventListener('input', validar);
     productsList.addEventListener('submit', cargarData);
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        carrito = JSON.parse( localStorage.getItem('carrito')) || [];
+        cargarHTML();
+    })
+    
     //Elimina un producto del curso.
     contenedorCarrito.addEventListener('click', eliminarProduct);
 }
@@ -88,7 +94,6 @@ function eliminarProduct(e){
         carrito = carrito.filter( product => product.id !== productId );
 
         cargarHTML();
-        console.log(carrito);
     }
 }
 
@@ -139,9 +144,6 @@ function leerDatosProduct(product){
         // Agregando elementos al carrito, tomamos una copia de lo que haya en este carrito.
         carrito = [...carrito, infoProduct]
     }
-
-
-
     cargarHTML()
 }
 function cargarHTML(){
@@ -159,7 +161,13 @@ function cargarHTML(){
         <td><a href="#" class="borrar-product" data-id="${id}">X</a></td>
         `
         contenedorCarrito.appendChild(row)
-    })
+    });
+    //sincroniza el carrito con el localStorage
+    sincronizaLocalStorage()
+}
+
+function sincronizaLocalStorage(){
+    localStorage.setItem('carrito', JSON.stringify(carrito));
 }
 
 function limpiarHTML(contenedor){
