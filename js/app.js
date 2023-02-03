@@ -78,7 +78,6 @@ function cargarListeners(){
         carrito = JSON.parse( localStorage.getItem('carrito'))
         cargarHTML();
     })
-    console.log(JSON.parse( localStorage.getItem('carrito')));
     //Elimina un producto del curso.
     contenedorCarrito.addEventListener('click', eliminarProduct);
 }
