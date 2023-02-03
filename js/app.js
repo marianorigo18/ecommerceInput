@@ -1,6 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-    mostrarProducts()
-})
+mostrarProducts()
 
 let carrito = []
 
@@ -77,10 +75,10 @@ function cargarListeners(){
     productsList.addEventListener('submit', cargarData);
     
     document.addEventListener('DOMContentLoaded', () => {
-        carrito = JSON.parse( localStorage.getItem('carrito')) || [];
+        carrito = JSON.parse( localStorage.getItem('carrito'))
         cargarHTML();
     })
-    
+    console.log(JSON.parse( localStorage.getItem('carrito')));
     //Elimina un producto del curso.
     contenedorCarrito.addEventListener('click', eliminarProduct);
 }
