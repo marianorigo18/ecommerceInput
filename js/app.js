@@ -75,7 +75,7 @@ function cargarListeners(){
     productsList.addEventListener('submit', cargarData);
     
     document.addEventListener('DOMContentLoaded', () => {
-        carrito = JSON.parse( localStorage.getItem('carrito'))
+        carrito = JSON.parse( localStorage.getItem('carrito')) || [];
         cargarHTML();
     })
     //Elimina un producto del curso.
